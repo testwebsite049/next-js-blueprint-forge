@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -53,7 +52,14 @@ export const UserForm = () => {
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true);
     try {
-      await userService.createUser(values);
+      // Make sure all required fields are present by explicitly passing them
+      await userService.createUser({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        role: values.role
+      });
+      
       toast({
         title: "User created",
         description: `${values.name} has been created successfully.`,
